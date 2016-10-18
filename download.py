@@ -19,3 +19,39 @@
 #d,e,f = month, day, year for end date
 #month indexing starts at 0
 #g = frequency d,w,m (daily, weekly, monthly)
+
+## Imports ##
+from datetime import datetime
+
+## Functions ##
+
+#construct Yahoo! Finance URL
+def constructYFURL(ticker,start_date,end_date,freq):
+    start_date = datetime.strptime(start_date,"%Y-%m-%d").date() #set start date in correct format
+    end_date = datetime.strptime(end_date, "%Y-%m-%d").date() #set end date in correct format
+    
+    s=ticker.replace("^","%5E") #replaces ^ in ticker with %5E notation
+    
+    #start date items
+    #month always has 2 digits
+    if start_date.month-1 < 10:
+        a = "0" + str(start_date.month-1) #appends a 0
+    else:
+        a= str(start_date.month-1)#month of start date (index is from 0)
+    b= str(start_date.day) #day of start date
+    c= str(start_date.year) #year of start date
+    
+    #end date items
+    #month always has 2 digits
+    if end_date.month-1 <10:
+        d = "0" + str(end_date.month-1) #appends a 0
+    else:
+        d= str(end_date.month-1) #month of end date
+    e= str(end_date.day) #day of end date
+    f= str(end_date.year) #year of end date
+    g= freq #frequency d= daily, w= weekly, m= monthly
+    
+    #Setup the URL
+    yfURL = "http://chart.finance.yahoo.com/table.csv?s="+s+"&a="+a+"&b="+b+"&c="+c+"&d="+d+"&e="+e+"&f="+f+"&g="+g+"&ignore=.csv"
+    return yfURL
+    
