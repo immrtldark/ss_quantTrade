@@ -54,4 +54,32 @@ def constructYFURL(ticker,start_date,end_date,freq):
     #Setup the URL
     yfURL = "http://chart.finance.yahoo.com/table.csv?s="+s+"&a="+a+"&b="+b+"&c="+c+"&d="+d+"&e="+e+"&f="+f+"&g="+g+"&ignore=.csv"
     return yfURL
+
+#Download file and save to local path
+def download(file_Path,url_of_file):
+    import urllib.request
+    import urllib.error
+    
+    #Use a function from urllib to download a url and save to a local path
+    webRequest = urllib.request.Request(url_of_file)
+    
+    #Rest of the code will be in try:/except: pair in case of failure
+    
+    try:
+        page =  urllib.request.urlopen(webRequest)
+        #save contents of web request to variable 'content'
+        #file form of the URL
+        
+        content= page.read()
+        
+        with open(file_Path,'wb') as output:
+            output.write(bytearray(content))
+        #reads bytes in content and then writes to local file.
+        #allows function to be filetype agnostic
+        
+    except urllib.error.HTTPError as err:
+        #Print an error, if any resulted
+        print (err.fp.read())
+        
+
     
